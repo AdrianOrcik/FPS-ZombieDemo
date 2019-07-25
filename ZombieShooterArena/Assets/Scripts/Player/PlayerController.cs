@@ -17,8 +17,8 @@ namespace Player
         [Header("Weapons Settings")] 
         public LayerMask mask;
         public Weapon weaponData;
+        public Animator animator;
 
-    
         private ControllerCalculate controllerCalculate;
         private WeaponController weaponController;
     

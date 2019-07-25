@@ -31,11 +31,13 @@ namespace Core
             {
                 Time.timeScale = 0;
                 Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
                 IsPaused = true;
             }
             else
             {
                 Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.None;
                 IsPaused = false;
                 Time.timeScale = 1;
             }
