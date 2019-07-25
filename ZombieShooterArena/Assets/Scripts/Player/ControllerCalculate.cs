@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Core;
+using UnityEngine;
 
 namespace Player
 {
@@ -28,8 +29,8 @@ namespace Player
         {
             //Refactor into movementCalculation class
             //TODO: constants
-            float xMov = Input.GetAxis("Horizontal");
-            float zMov = Input.GetAxis("Vertical");
+            float xMov = Input.GetAxis(Constants.INPUT_HORIZONTAL_AXIS);
+            float zMov = Input.GetAxis(Constants.INPUT_VERTICAL_AXIS);
 
             Vector3 movHorizontal = player.transform.right * xMov;
             Vector3 movVertical = player.transform.forward * zMov;
@@ -42,10 +43,10 @@ namespace Player
         {
             //Calculate Rotation
             //TODO:constants
-            float xRot = Input.GetAxis("Mouse X");
+            float xRot = Input.GetAxis(Constants.INPUT_MOUSE_X);
             xRotation = new Vector3(0f, xRot, 0f) * player.RotationSensitivity;
 
-            float yRot = Input.GetAxis("Mouse Y");
+            float yRot = Input.GetAxis(Constants.INPUT_MOUSE_Y);
             yRotation = new Vector3(yRot, 0f, 0f) * player.RotationSensitivity;
         }
     }

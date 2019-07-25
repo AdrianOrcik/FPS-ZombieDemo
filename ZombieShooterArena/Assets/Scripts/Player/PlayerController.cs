@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Core;
+using ScriptableScripts;
+using UnityEngine;
 
 namespace Player
 {
@@ -41,28 +43,7 @@ namespace Player
         private void Update()
         {
             controllerCalculate.Update();
-
-            if (Input.GetButtonDown("Fire1"))
-            {
-                weaponController.Shoot();
-            }
-        
-            //TODO: refactor
-            if (Input.GetKeyUp("escape"))
-            {
-                if (!paused)
-                {
-                    Time.timeScale = 0;
-                    Cursor.visible = true;
-                    paused = true;
-                }
-                else
-                {
-                    Cursor.visible = false;
-                    paused = false;
-                    Time.timeScale = 1;
-                }
-            }
+            weaponController.Update();
         }
 
         //Physic movement in FixedUpdate
