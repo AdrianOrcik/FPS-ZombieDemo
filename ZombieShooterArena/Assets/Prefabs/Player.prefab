@@ -316,6 +316,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1537919029365505420}
   camera: {fileID: 1537919029309832438}
+  weaponData: {fileID: 11400000, guid: d23eb40ebdda643908b4f99b4e1964d6, type: 2}
+  mask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1001 &877977838885903539
 PrefabInstance:
   m_ObjectHideFlags: 0

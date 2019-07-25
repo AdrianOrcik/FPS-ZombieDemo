@@ -10,8 +10,14 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
-          <e p="ControllerCalculate.cs" t="Include" />
-          <e p="PlayerController.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="ControllerCalculate.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
+            <e p="WeaponController.cs" t="Include" />
+          </e>
+          <e p="ScriptableScripts" t="Include">
+            <e p="Weapon.cs" t="Include" />
+          </e>
         </e>
       </e>
       <e p="Library" t="ExcludeRecursive" />
