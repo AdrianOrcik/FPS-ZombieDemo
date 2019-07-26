@@ -25,6 +25,8 @@ namespace Player
         {
             player.animator.SetTrigger("ShotTrigger");
             player.AudioManager.PlaySoundFX(SoundEffectType.GunShot);
+            player.InstantiateMuzzleFlash(player.weaponData.MuzzleFlashObj, player.muzzleTransform);
+
             RaycastHit hit;
             if (Physics.Raycast(player.camera.transform.position, player.camera.transform.forward, out hit,
                 player.weaponData.Range, player.mask))
@@ -32,6 +34,8 @@ namespace Player
                 //We hit something 
                 Debug.Log("Hit: " + hit.collider.name);
             }
+
+            player.InstantiateImpact(player.weaponData.ImpactShotObj, hit);
         }
     }
 }

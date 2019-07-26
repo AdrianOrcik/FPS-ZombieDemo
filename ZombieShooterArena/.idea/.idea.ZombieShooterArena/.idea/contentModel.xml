@@ -11,6 +11,32 @@
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="FPS Pack" t="Include">
+          <e p="Readme.txt" t="Include" />
+          <e p="Scripts" t="Include">
+            <e p="Demo" t="Include">
+              <e p="FPSDemoGUI.cs" t="Include" />
+              <e p="FPSDemoReactivator.cs" t="Include" />
+              <e p="FPSFireManager.cs" t="Include" />
+              <e p="MouseLock.cs" t="Include" />
+            </e>
+            <e p="FPSLightCurves.cs" t="Include" />
+            <e p="FPSParticleSystemScaler.cs" t="Include" />
+            <e p="FPSRandomRotateAngle.cs" t="Include" />
+            <e p="FPSShaderColorGradient.cs" t="Include" />
+            <e p="FPSShaderFloatCurves.cs" t="Include" />
+            <e p="MaterialType.cs" t="Include" />
+          </e>
+          <e p="Shaders" t="Include">
+            <e p="FPSDistortionParticles.shader" t="Include" />
+            <e p="FPSGlass.shader" t="Include" />
+            <e p="FPSGlowAdditive.shader" t="Include" />
+            <e p="FPSLazer.shader" t="Include" />
+            <e p="FPSParticleBlendDirLight.shader" t="Include" />
+            <e p="FPSProjectorBlended.shader" t="Include" />
+            <e p="FPSWaterParticles.shader" t="Include" />
+          </e>
+        </e>
         <e p="Prefabs" t="Include">
           <e p="Desert Environment" t="Include">
             <e p="Example" t="Include">

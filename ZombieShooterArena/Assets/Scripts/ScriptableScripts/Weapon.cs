@@ -10,5 +10,7 @@ namespace ScriptableScripts
 
         public float Damage = 10f;
         public float Range = 200f;
+        public GameObject MuzzleFlashObj;
+        public GameObject ImpactShotObj;
     }
 }

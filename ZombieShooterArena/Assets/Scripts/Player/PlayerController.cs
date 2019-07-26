@@ -11,20 +11,21 @@ namespace Player
         public float Speed { get; set; }
         public float RotationSensitivity { get; set; }
 
-        [Header("Require Components")] 
-        [SerializeField] private Rigidbody rigidbody;
+        [Header("Require Components")] [SerializeField]
+        private Rigidbody rigidbody;
+
         public Camera camera;
 
-        [Header("Weapons Settings")] 
-        public LayerMask mask;
+        [Header("Weapons Settings")] public LayerMask mask;
         public Weapon weaponData;
         public Animator animator;
+        public Transform muzzleTransform;
 
         private ControllerCalculate controllerCalculate;
         private WeaponController weaponController;
-    
+
         private bool paused;
-    
+
         private void Awake()
         {
             controllerCalculate = new ControllerCalculate(this);
@@ -35,9 +36,21 @@ namespace Player
         {
             paused = false;
             Cursor.visible = false;
-        
+
             Speed = 5;
             RotationSensitivity = 3;
+        }
+
+        public void InstantiateMuzzleFlash(GameObject obj, Transform parent)
+        {
+            GameObject _obj = Instantiate(obj, parent);
+            Destroy(_obj, 1f);
+        }
+
+        public void InstantiateImpact(GameObject obj, RaycastHit hit)
+        {
+            GameObject _obj = Instantiate(obj, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(_obj, 2f);
         }
 
         //Calculation in Update
@@ -61,6 +74,7 @@ namespace Player
                 rigidbody.MovePosition(rigidbody.position + controllerCalculate.Velocity * Time.deltaTime);
             }
         }
+
         private void Rotation()
         {
             rigidbody.MoveRotation(rigidbody.rotation * Quaternion.Euler(controllerCalculate.xRotation));
@@ -70,6 +84,5 @@ namespace Player
                 camera.transform.Rotate(-controllerCalculate.yRotation);
             }
         }
-
     }
 }
