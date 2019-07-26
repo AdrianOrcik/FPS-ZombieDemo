@@ -9,5 +9,13 @@
         public const string INPUT_VERTICAL_AXIS = "Vertical";
         public const string INPUT_MOUSE_X = "Mouse X";
         public const string INPUT_MOUSE_Y = "Mouse Y";
+        
+        //--Animation Trigger
+        //PLAYER
+        public const string ANIM_SHOT = "ShotTrigger";
+        
+        
+        //NPC
+        public const string ANIM_TO_DIE = "ToDie";
     }
 }

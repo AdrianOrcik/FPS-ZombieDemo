@@ -67,6 +67,9 @@
             <e p="SoundEffectType.cs" t="Include" />
             <e p="WeaponType.cs" t="Include" />
           </e>
+          <e p="NPC" t="Include">
+            <e p="NPC_Controller.cs" t="Include" />
+          </e>
           <e p="Player" t="Include">
             <e p="ControllerCalculate.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />

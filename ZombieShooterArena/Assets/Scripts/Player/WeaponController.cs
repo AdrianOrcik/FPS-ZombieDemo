@@ -1,5 +1,6 @@
 ﻿using Core;
 using Enums;
+using NPC;
 using UnityEngine;
 
 namespace Player
@@ -23,7 +24,7 @@ namespace Player
 
         private void Shoot()
         {
-            player.animator.SetTrigger("ShotTrigger");
+            player.animator.SetTrigger(Constants.ANIM_SHOT);
             player.AudioManager.PlaySoundFX(SoundEffectType.GunShot);
             player.InstantiateMuzzleFlash(player.weaponData.MuzzleFlashObj, player.muzzleTransform);
 
@@ -33,6 +34,12 @@ namespace Player
             {
                 //We hit something 
                 Debug.Log("Hit: " + hit.collider.name);
+                NPC_Controller npcController = hit.collider.GetComponent<NPC_Controller>();
+                
+                if (npcController != null)
+                {
+                    npcController.SetAnimation(Constants.ANIM_TO_DIE);
+                }
             }
 
             player.InstantiateImpact(player.weaponData.ImpactShotObj, hit);
