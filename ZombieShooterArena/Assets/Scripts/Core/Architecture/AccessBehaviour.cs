@@ -7,6 +7,7 @@ namespace Core.Architecture
         public InputManager InputManager => GetAssignedClass<InputManager>();
         public GameManager GameManager => GetAssignedClass<GameManager>();
         public EventManager EventManager => GetAssignedClass<EventManager>();
+        public AudioManager AudioManager => GetAssignedClass<AudioManager>();
 
         private T GetAssignedClass<T>() where T : AccessBehaviour
         {

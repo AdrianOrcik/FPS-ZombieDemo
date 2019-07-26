@@ -1,11 +1,12 @@
 ﻿using Core;
+using Core.Architecture;
 using ScriptableScripts;
 using UnityEngine;
 
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : AccessBehaviour
     {
         public float Speed { get; set; }
         public float RotationSensitivity { get; set; }

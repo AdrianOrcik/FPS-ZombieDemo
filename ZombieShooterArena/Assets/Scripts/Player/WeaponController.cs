@@ -1,4 +1,5 @@
 ﻿using Core;
+using Enums;
 using UnityEngine;
 
 namespace Player
@@ -23,7 +24,7 @@ namespace Player
         private void Shoot()
         {
             player.animator.SetTrigger("ShotTrigger");
-
+            player.AudioManager.PlaySoundFX(SoundEffectType.GunShot);
             RaycastHit hit;
             if (Physics.Raycast(player.camera.transform.position, player.camera.transform.forward, out hit,
                 player.weaponData.Range, player.mask))
