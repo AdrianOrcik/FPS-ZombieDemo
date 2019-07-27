@@ -17,5 +17,8 @@
         
         //NPC
         public const string ANIM_TO_DIE = "ToDie";
+        public const string ANIM_TO_IDLE = "ToIdle";
+        public const string ANIM_TO_HIT = "ToHit";
+        public const string ANIM_TO_RUN = "ToRun";
     }
 }

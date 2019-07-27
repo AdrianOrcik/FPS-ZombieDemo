@@ -35,10 +35,11 @@ namespace Player
                 //We hit something 
                 Debug.Log("Hit: " + hit.collider.name);
                 NPC_Controller npcController = hit.collider.GetComponent<NPC_Controller>();
-                
+
                 if (npcController != null)
                 {
-                    npcController.SetAnimation(Constants.ANIM_TO_DIE);
+                    npcController.SetAnimation(Constants.ANIM_TO_HIT, 0, NPC.NPC.Hit);
+                    //npcController.Hit();
                 }
             }
 
