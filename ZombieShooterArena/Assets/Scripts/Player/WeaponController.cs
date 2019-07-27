@@ -32,14 +32,15 @@ namespace Player
             if (Physics.Raycast(player.camera.transform.position, player.camera.transform.forward, out hit,
                 player.weaponData.Range, player.mask))
             {
-                //We hit something 
-                Debug.Log("Hit: " + hit.collider.name);
                 NPC_Controller npcController = hit.collider.GetComponent<NPC_Controller>();
 
                 if (npcController != null)
                 {
-                    npcController.SetAnimation(Constants.ANIM_TO_HIT, 0, NPC.NPC.Hit);
-                    //npcController.Hit();
+                    if (npcController.NPC_Behaviour != NPC_BehaviourType.ANIM_TO_HIT)
+                    {
+                        Debug.Log("Hit");
+                        npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_HIT);
+                    }
                 }
             }
 

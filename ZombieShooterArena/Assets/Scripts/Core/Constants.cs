@@ -15,10 +15,18 @@
         public const string ANIM_SHOT = "ShotTrigger";
         
         
-        //NPC
+        //NPC 
         public const string ANIM_TO_DIE = "ToDie";
         public const string ANIM_TO_IDLE = "ToIdle";
         public const string ANIM_TO_HIT = "ToHit";
         public const string ANIM_TO_RUN = "ToRun";
+        
+        //--Values
+        //NPC
+        public const float RUN_SPEED = 4f;
+        public const float IDLE_SPEED = 0f;
+        public const float RUN_ROT = 5f;
+        public const float IDLE_ROT = 0f;
+
     }
 }

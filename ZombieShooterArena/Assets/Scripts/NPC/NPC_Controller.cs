@@ -3,142 +3,139 @@ using UnityEngine;
 
 namespace NPC
 {
-    public enum NPC
-    {
-        None,
-        Idle,
-        Run,
-        Hit,
-        Die
-    }
-
     public class NPC_Controller : MonoBehaviour
     {
+        private NPC_AnimController npcAnimController;
+
         [SerializeField] private Animator animator;
         [SerializeField] private Transform Target;
-        private float Speed = 4f;
-        private float RotSpeed = 5f;
 
-        public float accurancy = 1f;
-        public NPC NPC_Behaviour = NPC.Idle;
+        public NPC_BehaviourType NPC_Behaviour { get; set; }
+        public NPC_BehaviourType NPC_LastBehaviour { get; set; }
 
-        private float animationDelay = 1f;
-        private float animationCounter = 0f;
-        private bool animSetting = false;
+        private float Speed { get; set; }
+        private float RotSpeed { get; set; }
 
-        public int Life = 3;
+        private int currentLife = 3;
+        private float accurancy = 2f;
+        private Vector3 lookAtGoal = Vector3.zero;
 
-        private bool GameOver = false;
-
-        public void SetAnimation(string animTrigger, int speed, NPC npcBehaviour)
+        private void Awake()
         {
-            if (animSetting)
-            {
-                animSetting = false;
-                Speed = speed;
-
-                NPC_Behaviour = npcBehaviour;
-                animator.SetTrigger(animTrigger);
-
-                Debug.Log("TO=> " + npcBehaviour);
-                if (npcBehaviour == NPC.Hit)
-                {
-                    Hit();
-                }
-            }
-        }
-
-        public void Hit()
-        {
-            Life -= 1;
-            if (Life <= 0 && NPC_Behaviour != NPC.Die)
-            {
-                GameOver = true;
-                NPC_Behaviour = NPC.Die;
-                Speed = 0;
-                animator.SetTrigger(Constants.ANIM_TO_DIE);
-            }
+            npcAnimController = new NPC_AnimController(this, animator);
         }
 
         private void Start()
         {
-            NPC_Behaviour = NPC.Idle;
-            Invoke(nameof(ToAlive), 1f);
+            DefaultConfig();
+
+            //TODO: Refactor
+            Invoke(nameof(ToAlive), 2f);
+        }
+
+        private void DefaultConfig()
+        {
+            NPC_Behaviour = NPC_BehaviourType.ANIM_TO_IDLE;
+            Speed = Constants.IDLE_SPEED;
+            RotSpeed = Constants.IDLE_ROT;
         }
 
         private void ToAlive()
         {
-            SetAnimation(Constants.ANIM_TO_RUN, 4, NPC.Run);
+            SetNpcState(NPC_BehaviourType.ANIM_TO_RUN);
+        }
+
+        public void SetNpcState(NPC_BehaviourType npcBehaviour)
+        {
+            switch (npcBehaviour)
+            {
+                case NPC_BehaviourType.ANIM_TO_IDLE:
+                    OnIdle();
+                    break;
+                case NPC_BehaviourType.ANIM_TO_RUN:
+                    OnRun();
+                    break;
+                case NPC_BehaviourType.ANIM_TO_HIT:
+                    OnHit();
+                    break;
+            }
+        }
+
+        public void SetAnimAttribute(int speed, int rotSpeed)
+        {
+            Speed = speed;
+            RotSpeed = rotSpeed;
+        }
+
+        private void OnIdle()
+        {
+            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_IDLE);
+        }
+
+        public void OnIdleConfig(NPC_BehaviourType npcBehaviourType)
+        {
+            NPC_Behaviour = npcBehaviourType;
+            Speed = Constants.IDLE_SPEED;
+            RotSpeed = Constants.IDLE_ROT;
+        }
+
+        public void OnRunConfig(NPC_BehaviourType npcBehaviourType)
+        {
+            NPC_Behaviour = npcBehaviourType;
+            Speed = Constants.RUN_SPEED;
+            RotSpeed = Constants.RUN_ROT;
+        }
+
+        private void OnRun()
+        {
+            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_RUN);
+        }
+
+        private void OnDie()
+        {
+            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_DIE);
+        }
+
+        private void OnHit()
+        {
+            currentLife -= 1;
+            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_HIT);
         }
 
         private void Update()
         {
-            Debug.Log("Speed: " + Speed);
-
-            if (animationCounter <= animationDelay)
-            {
-                animationCounter += Time.deltaTime;
-                if (animationCounter > animationDelay)
-                {
-                    animSetting = true;
-                    animationCounter = 0;
-                }
-            }
+            npcAnimController.DeltaUpdate();
+            npcAnimController.AnimStateUpdate();
         }
 
         private void LateUpdate()
         {
-            if (!GameOver)
+            lookAtGoal = new Vector3(Target.transform.position.x, transform.position.y,
+                Target.transform.position.z);
+
+            if (IsTargetFar())
             {
-                if (Life <= 0 && NPC_Behaviour != NPC.Die)
-                {
-                    GameOver = true;
-                    NPC_Behaviour = NPC.Die;
-                    Speed = 0;
-                    animator.SetTrigger(Constants.ANIM_TO_DIE);
-                }
-                else
-                {
-                    Walk();
-                }
+                WalkCalculation();
+                RotationCalculation();
             }
         }
 
-        private void Walk()
+        public bool IsTargetFar()
         {
-            Vector3 lookAtGoal = new Vector3(Target.transform.position.x, transform.position.y,
-                Target.transform.position.z);
+            return Vector3.Distance(transform.position, lookAtGoal) > accurancy;
+        }
 
-            if (NPC_Behaviour == NPC.Run)
-            {
-                Vector3 direction = lookAtGoal - transform.position;
+        private void WalkCalculation()
+        {
+            transform.Translate(0, 0, Speed * Time.deltaTime);
+        }
 
+        private void RotationCalculation()
+        {
+            Vector3 direction = lookAtGoal - transform.position;
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),
-                    Time.deltaTime * RotSpeed);
-            }
-
-            if (Vector3.Distance(transform.position, lookAtGoal) > accurancy)
-            {
-                if (NPC_Behaviour == NPC.Idle || NPC_Behaviour == NPC.Hit)
-                {
-                    SetAnimation(Constants.ANIM_TO_RUN, 4, NPC.Run);
-                    return;
-                }
-
-                if (NPC_Behaviour == NPC.Run)
-                {
-                    transform.Translate(0, 0, Speed * Time.deltaTime);
-                    return;
-                }
-            }
-            else
-            {
-                if (NPC_Behaviour != NPC.Idle)
-                {
-                    SetAnimation(Constants.ANIM_TO_IDLE, 0, NPC.Idle);
-                }
-            }
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction),
+                Time.deltaTime * RotSpeed);
         }
     }
 }
