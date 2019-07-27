@@ -18,3 +18,5 @@ MonoBehaviour:
   MuzzleFlashObj: {fileID: 161002, guid: d4ef0a1d454dc284ba8d539d62501249, type: 3}
   ImpactShotObj: {fileID: 383540758288851469, guid: 5aaf96bd757c949e8b282ee4f63b68ee,
     type: 3}
+  ZombieImpactShotObj: {fileID: 383540758288851469, guid: c088991aaac51444cbf2fb2f57924ed6,
+    type: 3}

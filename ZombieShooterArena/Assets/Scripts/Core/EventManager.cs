@@ -8,9 +8,17 @@ namespace Core
         public delegate void OnClickEscapeHandler();
         public event OnClickEscapeHandler OnClickEscape;
 
+        public delegate void OnHitPlayerHandler();
+        public event OnHitPlayerHandler OnHitPlayer;
+
         public void OnTriggerClickEscape()
         {
             OnClickEscape?.Invoke();
+        }
+
+        public void OnTriggerHitPlayer()
+        {
+            OnHitPlayer?.Invoke();
         }
     }
 }

@@ -46,14 +46,15 @@ namespace NPC
             {
                 if (npcController.NPC_Behaviour != NPC_BehaviourType.ANIM_TO_RUN)
                 {
+                    npcController.NPC_Behaviour = NPC_BehaviourType.ANIM_TO_RUN; //Handle multiple triggered run state
                     npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_RUN);
                 }
             }
             else
             {
-                if (npcController.NPC_Behaviour != NPC_BehaviourType.ANIM_TO_IDLE)
+                if (npcController.NPC_Behaviour != NPC_BehaviourType.ANIM_TO_ATT)
                 {
-                    npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_IDLE);
+                    npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_ATT);
                 }
             }
         }

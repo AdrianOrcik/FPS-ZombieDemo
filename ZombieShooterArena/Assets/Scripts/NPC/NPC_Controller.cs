@@ -1,14 +1,16 @@
 ﻿using Core;
+using Core.Architecture;
 using UnityEngine;
 
 namespace NPC
 {
-    public class NPC_Controller : MonoBehaviour
+    public class NPC_Controller : AccessBehaviour
     {
         private NPC_AnimController npcAnimController;
 
         [SerializeField] private Animator animator;
-        [SerializeField] private Transform Target;
+        [SerializeField] private Transform target;
+        [SerializeField] private CapsuleCollider collider;
 
         public NPC_BehaviourType NPC_Behaviour { get; set; }
         public NPC_BehaviourType NPC_LastBehaviour { get; set; }
@@ -17,7 +19,7 @@ namespace NPC
         private float RotSpeed { get; set; }
 
         private int currentLife = 3;
-        private float accurancy = 2f;
+        private float accurancy = 1.8f;
         private Vector3 lookAtGoal = Vector3.zero;
 
         private void Awake()
@@ -28,21 +30,14 @@ namespace NPC
         private void Start()
         {
             DefaultConfig();
-
             //TODO: Refactor
-            Invoke(nameof(ToAlive), 2f);
         }
 
         private void DefaultConfig()
         {
-            NPC_Behaviour = NPC_BehaviourType.ANIM_TO_IDLE;
+            NPC_Behaviour = NPC_BehaviourType.ANIM_TO_RUN;
             Speed = Constants.IDLE_SPEED;
             RotSpeed = Constants.IDLE_ROT;
-        }
-
-        private void ToAlive()
-        {
-            SetNpcState(NPC_BehaviourType.ANIM_TO_RUN);
         }
 
         public void SetNpcState(NPC_BehaviourType npcBehaviour)
@@ -58,6 +53,9 @@ namespace NPC
                 case NPC_BehaviourType.ANIM_TO_HIT:
                     OnHit();
                     break;
+                case NPC_BehaviourType.ANIM_TO_ATT:
+                    OnAttack();
+                    break;
             }
         }
 
@@ -70,6 +68,11 @@ namespace NPC
         private void OnIdle()
         {
             npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_IDLE);
+        }
+
+        public void OnPlayerHit()
+        {
+            EventManager.OnTriggerHitPlayer();
         }
 
         public void OnIdleConfig(NPC_BehaviourType npcBehaviourType)
@@ -93,13 +96,23 @@ namespace NPC
 
         private void OnDie()
         {
+            collider.enabled = false;
             npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_DIE);
+        }
+
+        private void OnAttack()
+        {
+            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_ATT);
         }
 
         private void OnHit()
         {
             currentLife -= 1;
-            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_HIT);
+
+            if (currentLife <= 0)
+            {
+                OnDie();
+            }
         }
 
         private void Update()
@@ -110,8 +123,8 @@ namespace NPC
 
         private void LateUpdate()
         {
-            lookAtGoal = new Vector3(Target.transform.position.x, transform.position.y,
-                Target.transform.position.z);
+            lookAtGoal = new Vector3(target.transform.position.x, transform.position.y,
+                target.transform.position.z);
 
             if (IsTargetFar())
             {

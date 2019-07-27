@@ -36,15 +36,14 @@ namespace Player
 
                 if (npcController != null)
                 {
-                    if (npcController.NPC_Behaviour != NPC_BehaviourType.ANIM_TO_HIT)
-                    {
-                        Debug.Log("Hit");
-                        npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_HIT);
-                    }
+                    player.InstantiateImpact(player.weaponData.ZombieImpactShotObj, hit);
+                    npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_HIT);
+                }
+                else
+                {
+                    player.InstantiateImpact(player.weaponData.ImpactShotObj, hit);
                 }
             }
-
-            player.InstantiateImpact(player.weaponData.ImpactShotObj, hit);
         }
     }
 }

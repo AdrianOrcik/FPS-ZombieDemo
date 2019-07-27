@@ -12,5 +12,6 @@ namespace ScriptableScripts
         public float Range = 200f;
         public GameObject MuzzleFlashObj;
         public GameObject ImpactShotObj;
+        public GameObject ZombieImpactShotObj;
     }
 }
