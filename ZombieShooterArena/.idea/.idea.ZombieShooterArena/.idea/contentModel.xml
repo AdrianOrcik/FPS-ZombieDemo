@@ -65,11 +65,13 @@
           </e>
           <e p="Enums" t="Include">
             <e p="NPC_BehaviourType.cs" t="Include" />
+            <e p="NPC_BodyType.cs" t="Include" />
             <e p="SoundEffectType.cs" t="Include" />
             <e p="WeaponType.cs" t="Include" />
           </e>
           <e p="NPC" t="Include">
             <e p="NPC_AnimController.cs" t="Include" />
+            <e p="NPC_BodyHit.cs" t="Include" />
             <e p="NPC_Controller.cs" t="Include" />
           </e>
           <e p="Player" t="Include">

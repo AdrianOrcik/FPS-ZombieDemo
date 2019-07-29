@@ -32,12 +32,12 @@ namespace Player
             if (Physics.Raycast(player.camera.transform.position, player.camera.transform.forward, out hit,
                 player.weaponData.Range, player.mask))
             {
-                NPC_Controller npcController = hit.collider.GetComponent<NPC_Controller>();
+                NPC_BodyHit npcBodyHit = hit.collider.GetComponent<NPC_BodyHit>();
 
-                if (npcController != null)
+                if (npcBodyHit != null)
                 {
                     player.InstantiateImpact(player.weaponData.ZombieImpactShotObj, hit);
-                    npcController.SetNpcState(NPC_BehaviourType.ANIM_TO_HIT);
+                    npcBodyHit.SetNpcState();
                 }
                 else
                 {

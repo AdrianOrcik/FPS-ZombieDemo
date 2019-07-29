@@ -10,7 +10,7 @@ namespace NPC
 
         [SerializeField] private Animator animator;
         [SerializeField] private Transform target;
-        [SerializeField] private CapsuleCollider collider;
+        [SerializeField] private Collider[] colliders;
 
         public NPC_BehaviourType NPC_Behaviour { get; set; }
         public NPC_BehaviourType NPC_LastBehaviour { get; set; }
@@ -40,7 +40,7 @@ namespace NPC
             RotSpeed = Constants.IDLE_ROT;
         }
 
-        public void SetNpcState(NPC_BehaviourType npcBehaviour)
+        public void SetNpcState(NPC_BehaviourType npcBehaviour, NPC_BodyType bodyType = NPC_BodyType.Body)
         {
             switch (npcBehaviour)
             {
@@ -51,7 +51,7 @@ namespace NPC
                     OnRun();
                     break;
                 case NPC_BehaviourType.ANIM_TO_HIT:
-                    OnHit();
+                    OnHit(bodyType);
                     break;
                 case NPC_BehaviourType.ANIM_TO_ATT:
                     OnAttack();
@@ -77,6 +77,7 @@ namespace NPC
 
         public void OnIdleConfig(NPC_BehaviourType npcBehaviourType)
         {
+            Debug.Log("IDLE_CONFIG");
             NPC_Behaviour = npcBehaviourType;
             Speed = Constants.IDLE_SPEED;
             RotSpeed = Constants.IDLE_ROT;
@@ -94,10 +95,14 @@ namespace NPC
             npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_RUN);
         }
 
-        private void OnDie()
+        private void OnDie(NPC_BehaviourType npcBehaviourType)
         {
-            collider.enabled = false;
-            npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_DIE);
+            foreach (Collider col in colliders)
+            {
+                col.enabled = false;
+            }
+
+            npcAnimController.SetAnimation(npcBehaviourType);
         }
 
         private void OnAttack()
@@ -105,13 +110,20 @@ namespace NPC
             npcAnimController.SetAnimation(NPC_BehaviourType.ANIM_TO_ATT);
         }
 
-        private void OnHit()
+        private void OnHit(NPC_BodyType npcBodyType)
         {
-            currentLife -= 1;
-
-            if (currentLife <= 0)
+            if (npcBodyType == NPC_BodyType.Head)
             {
-                OnDie();
+                OnDie(NPC_BehaviourType.ANIM_TO_HEADSHOTDIE);
+            }
+            else
+            {
+                currentLife -= 1;
+
+                if (currentLife <= 0)
+                {
+                    OnDie(NPC_BehaviourType.ANIM_TO_DIE);
+                }
             }
         }
 

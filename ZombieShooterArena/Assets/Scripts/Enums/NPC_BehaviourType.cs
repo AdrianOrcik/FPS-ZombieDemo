@@ -7,6 +7,7 @@
         ANIM_TO_RUN,
         ANIM_TO_HIT,
         ANIM_TO_DIE,
-        ANIM_TO_ATT
+        ANIM_TO_ATT,
+        ANIM_TO_HEADSHOTDIE
     }
 }
