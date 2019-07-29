@@ -21,8 +21,9 @@ namespace ScriptableScripts
         public void Init()
         {
             IsReloading = false;
+            AmmoAmount = StackAmount;
         }
-        
+
         public void Reload()
         {
             AmmoAmount = StackAmount;

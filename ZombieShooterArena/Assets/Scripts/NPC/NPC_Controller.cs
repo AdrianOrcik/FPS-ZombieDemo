@@ -11,6 +11,7 @@ namespace NPC
         [SerializeField] private Animator animator;
         [SerializeField] private Transform target;
         [SerializeField] private Collider[] colliders;
+        [SerializeField] private GameObject miniMapPointer;
 
         public NPC_BehaviourType NPC_Behaviour { get; set; }
         public NPC_BehaviourType NPC_LastBehaviour { get; set; }
@@ -98,6 +99,7 @@ namespace NPC
         private void OnDie(NPC_BehaviourType npcBehaviourType)
         {
             target = null;
+            miniMapPointer.SetActive(false);
 
             foreach (Collider col in colliders)
             {
