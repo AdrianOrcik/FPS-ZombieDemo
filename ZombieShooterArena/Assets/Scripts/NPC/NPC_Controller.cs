@@ -97,6 +97,8 @@ namespace NPC
 
         private void OnDie(NPC_BehaviourType npcBehaviourType)
         {
+            target = null;
+
             foreach (Collider col in colliders)
             {
                 col.enabled = false;
@@ -135,13 +137,16 @@ namespace NPC
 
         private void LateUpdate()
         {
-            lookAtGoal = new Vector3(target.transform.position.x, transform.position.y,
-                target.transform.position.z);
-
-            if (IsTargetFar())
+            if (target != null)
             {
-                WalkCalculation();
-                RotationCalculation();
+                lookAtGoal = new Vector3(target.transform.position.x, transform.position.y,
+                    target.transform.position.z);
+
+                if (IsTargetFar())
+                {
+                    WalkCalculation();
+                    RotationCalculation();
+                }
             }
         }
 

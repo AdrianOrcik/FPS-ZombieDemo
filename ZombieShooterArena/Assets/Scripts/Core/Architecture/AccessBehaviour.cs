@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 
 namespace Core.Architecture
 {
@@ -8,7 +9,8 @@ namespace Core.Architecture
         public GameManager GameManager => GetAssignedClass<GameManager>();
         public EventManager EventManager => GetAssignedClass<EventManager>();
         public AudioManager AudioManager => GetAssignedClass<AudioManager>();
-
+        public PlayerController PlayerController => GetAssignedClass<PlayerController>();
+        
         private T GetAssignedClass<T>() where T : AccessBehaviour
         {
             return MainModel.GetAssignedClass<T>();

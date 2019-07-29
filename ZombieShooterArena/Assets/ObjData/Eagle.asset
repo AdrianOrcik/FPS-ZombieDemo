@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Eagle
   m_EditorClassIdentifier: 
   WeaponType: 0
+  IsReloading: 0
+  AmmoAmount: 3
+  StackAmount: 3
   Damage: 10
   Range: 200
   MuzzleFlashObj: {fileID: 161002, guid: d4ef0a1d454dc284ba8d539d62501249, type: 3}

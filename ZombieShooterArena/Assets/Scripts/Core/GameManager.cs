@@ -12,7 +12,9 @@ namespace Core
         {
             base.Awake();
             DontDestroyOnLoad(gameObject);
+
             IsPaused = false;
+            Cursor.visible = false;
         }
 
         protected override void SubscribeEvents()

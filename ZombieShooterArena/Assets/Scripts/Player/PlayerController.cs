@@ -6,8 +6,9 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : AccessBehaviour
+    public class PlayerController : MainBehaviour
     {
+    
         public float Speed { get; set; }
         public float RotationSensitivity { get; set; }
 
@@ -28,15 +29,14 @@ namespace Player
 
         private void Awake()
         {
+            base.Awake();
+            
             controllerCalculate = new ControllerCalculate(this);
             weaponController = new WeaponController(this);
         }
 
         private void Start()
         {
-            paused = false;
-            Cursor.visible = false;
-
             Speed = 5;
             RotationSensitivity = 3;
         }
