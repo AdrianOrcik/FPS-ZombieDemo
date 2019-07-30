@@ -2,6 +2,7 @@
 using Core;
 using Core.Architecture;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace NPC
 {
@@ -9,6 +10,7 @@ namespace NPC
     {
         private NPC_AnimController npcAnimController;
 
+        [SerializeField] private NavMeshAgent NavMeshAgent;
         [SerializeField] private NPC_Audio NpcAudio;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform target;
@@ -24,6 +26,7 @@ namespace NPC
         private int currentLife = 3;
         private float accurancy = 1.8f;
         private Vector3 lookAtGoal = Vector3.zero;
+        private bool isDeath = false;
 
         private void Awake()
         {
@@ -103,6 +106,7 @@ namespace NPC
             target = null;
             miniMapPointer.SetActive(false);
             NpcAudio.AudioSource.gameObject.SetActive(false);
+            isDeath = true;
 
             foreach (Collider col in colliders)
             {
@@ -146,15 +150,19 @@ namespace NPC
 
         private void LateUpdate()
         {
-            if (target != null)
+            if (target != null && !isDeath)
             {
                 lookAtGoal = new Vector3(target.transform.position.x, transform.position.y,
                     target.transform.position.z);
 
+
+                NavMeshAgent.speed = Speed;
+                NavMeshAgent.SetDestination(lookAtGoal);
+
                 if (IsTargetFar())
                 {
-                    WalkCalculation();
-                    RotationCalculation();
+                    //WalkCalculation();
+                    //RotationCalculation();
                 }
             }
         }
