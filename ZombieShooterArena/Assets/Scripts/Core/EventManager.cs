@@ -1,4 +1,5 @@
 ﻿using Core.Architecture;
+using Enums;
 using UnityEngine;
 
 namespace Core
@@ -18,13 +19,14 @@ namespace Core
         public event OnRefreshGameUIHandler OnRefreshGameUI;
 
         public delegate void OnReloadingWeaponHandler();
+
         public event OnReloadingWeaponHandler OnReloadingWeapon;
 
         public void OnTriggerReloadingWeapon()
         {
             OnReloadingWeapon?.Invoke();
         }
-        
+
         public void OnTriggerRefreshGameUI()
         {
             OnRefreshGameUI?.Invoke();

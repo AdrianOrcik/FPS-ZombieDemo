@@ -10,7 +10,10 @@ namespace Core
         [SerializeField] private SoundBehaviour soundBehaviour;
         public void PlaySoundFX(SoundEffectType soundEffectType)
         {
+            
+            
            soundBehaviour.PlayFX(soundEffectType);
         }
+
     }
 }

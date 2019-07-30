@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System.Runtime.CompilerServices;
+using Core;
 using Core.Architecture;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace NPC
     {
         private NPC_AnimController npcAnimController;
 
+        [SerializeField] private NPC_Audio NpcAudio;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform target;
         [SerializeField] private Collider[] colliders;
@@ -100,6 +102,7 @@ namespace NPC
         {
             target = null;
             miniMapPointer.SetActive(false);
+            NpcAudio.AudioSource.gameObject.SetActive(false);
 
             foreach (Collider col in colliders)
             {

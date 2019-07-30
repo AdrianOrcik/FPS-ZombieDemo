@@ -71,6 +71,7 @@
           </e>
           <e p="NPC" t="Include">
             <e p="NPC_AnimController.cs" t="Include" />
+            <e p="NPC_Audio.cs" t="Include" />
             <e p="NPC_BodyHit.cs" t="Include" />
             <e p="NPC_Controller.cs" t="Include" />
           </e>

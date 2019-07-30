@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Net.Http.Headers;
 using Core.Architecture;
+using Enums;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,6 +89,7 @@ namespace Screens
             PlayerController.weaponData.IsReloading = true;
             ReloadingText.gameObject.SetActive(true);
             ReloadingSlider.value = 0f;
+            PlayerController.AudioManager.PlaySoundFX(SoundEffectType.ReloadGun);
             float value = ReloadingSlider.value;
 
             while (value <= 1f)
