@@ -5,11 +5,16 @@ namespace Core
 {
     public class InputManager : MainBehaviour
     {
-        public void IsEscape()
+        private void Update()
         {
             if (Input.GetKeyUp(Constants.INPUT_ESCAPE_BTN))
             {
                 EventManager.OnTriggerClickEscape();
+            }
+
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                EventManager.OnTriggerReloadingWeapon();
             }
         }
     }

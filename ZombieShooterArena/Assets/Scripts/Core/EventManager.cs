@@ -13,9 +13,22 @@ namespace Core
 
         public event OnHitPlayerHandler OnHitPlayer;
 
-        public delegate void OnPlayerShotHandler();
+        public delegate void OnRefreshGameUIHandler();
 
-        public event OnPlayerShotHandler OnPlayerShot;
+        public event OnRefreshGameUIHandler OnRefreshGameUI;
+
+        public delegate void OnReloadingWeaponHandler();
+        public event OnReloadingWeaponHandler OnReloadingWeapon;
+
+        public void OnTriggerReloadingWeapon()
+        {
+            OnReloadingWeapon?.Invoke();
+        }
+        
+        public void OnTriggerRefreshGameUI()
+        {
+            OnRefreshGameUI?.Invoke();
+        }
 
         public void OnTriggerClickEscape()
         {
@@ -25,11 +38,6 @@ namespace Core
         public void OnTriggerHitPlayer()
         {
             OnHitPlayer?.Invoke();
-        }
-
-        public void OnTriggerPlayerShot()
-        {
-            OnPlayerShot?.Invoke();
         }
     }
 }

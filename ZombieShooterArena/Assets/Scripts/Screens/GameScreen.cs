@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Net.Http.Headers;
 using Core.Architecture;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Screens
     public class GameScreen : AccessBehaviour
     {
         [SerializeField] private DamagePanelScreen DamagePanelScreen;
+
         [Header("Reloading")] [SerializeField] private Slider ReloadingSlider;
         [SerializeField] private TMP_Text ReloadingText;
 
@@ -17,16 +19,21 @@ namespace Screens
 
         [SerializeField] private TMP_Text StackAmount;
 
+        [Header("GameStats")] [SerializeField] private TMP_Text HealthAmount;
+        [SerializeField] private TMP_Text KillsAmount;
+
         protected override void SubscribeEvents()
         {
             EventManager.OnHitPlayer += OnHitPlayer;
-            EventManager.OnPlayerShot += OnShotRefreshUI;
+            EventManager.OnRefreshGameUI += OnRefreshUI;
+            EventManager.OnReloadingWeapon += OnReloading;
         }
 
         protected override void UnsubscribeEvent()
         {
             EventManager.OnHitPlayer -= OnHitPlayer;
-            EventManager.OnPlayerShot -= OnShotRefreshUI;
+            EventManager.OnRefreshGameUI -= OnRefreshUI;
+            EventManager.OnReloadingWeapon -= OnReloading;
         }
 
         private void Awake()
@@ -40,16 +47,27 @@ namespace Screens
             StackAmount.text = PlayerController.weaponData.StackAmount.ToString();
         }
 
+        private void OnEnable()
+        {
+            OnRefreshUI();
+        }
+
         public void OnHitPlayer()
         {
+            GameManager.HitByZombie();
             if (!DamagePanelScreen.gameObject.activeSelf)
             {
                 DamagePanelScreen.gameObject.SetActive(true);
             }
+
+            OnRefreshUI();
         }
 
-        public void OnShotRefreshUI()
+        public void OnRefreshUI()
         {
+            HealthAmount.text = "Health: " + GameManager.Health.ToString();
+            KillsAmount.text = "Kills: " + GameManager.Kills.ToString();
+
             if (!PlayerController.weaponData.IsReloading)
             {
                 AmmoAmount.text = PlayerController.weaponData.AmmoAmount.ToString();

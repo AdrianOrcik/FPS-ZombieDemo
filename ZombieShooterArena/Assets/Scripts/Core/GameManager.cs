@@ -8,10 +8,17 @@ namespace Core
         //TODO: all property fill by default data
         public bool IsPaused { get; set; }
 
+        //TODO: Into GameData PlayerData
+        public int Health { get; set; }
+        public int Kills { get; set; }
+
         public override void Awake()
         {
             base.Awake();
             DontDestroyOnLoad(gameObject);
+
+            Health = 100;
+            Kills = 0;
 
             IsPaused = false;
             Cursor.visible = false;
@@ -25,6 +32,19 @@ namespace Core
         protected override void UnsubscribeEvent()
         {
             EventManager.OnClickEscape -= OnPauseGame;
+        }
+
+        public void KillZombie()
+        {
+            Kills += 1;
+        }
+
+        public void HitByZombie()
+        {
+            if (Health > 0)
+            {
+                Health -= 20;
+            }
         }
 
         private void OnPauseGame()

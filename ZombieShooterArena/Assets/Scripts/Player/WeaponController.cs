@@ -34,7 +34,7 @@ namespace Player
             player.InstantiateMuzzleFlash(player.weaponData.MuzzleFlashObj, player.muzzleTransform);
 
             player.weaponData.Shot();
-            player.EventManager.OnTriggerPlayerShot();
+
 
             RaycastHit hit;
             if (Physics.Raycast(player.camera.transform.position, player.camera.transform.forward, out hit,
@@ -52,6 +52,8 @@ namespace Player
                     player.InstantiateImpact(player.weaponData.ImpactShotObj, hit);
                 }
             }
+
+            player.EventManager.OnTriggerRefreshGameUI();
         }
     }
 }

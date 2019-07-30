@@ -118,6 +118,7 @@ namespace NPC
         {
             if (npcBodyType == NPC_BodyType.Head)
             {
+                GameManager.KillZombie();
                 OnDie(NPC_BehaviourType.ANIM_TO_HEADSHOTDIE);
             }
             else
@@ -126,9 +127,12 @@ namespace NPC
 
                 if (currentLife <= 0)
                 {
+                    GameManager.KillZombie();
                     OnDie(NPC_BehaviourType.ANIM_TO_DIE);
                 }
             }
+
+            EventManager.OnTriggerRefreshGameUI();
         }
 
         private void Update()
