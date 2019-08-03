@@ -28,8 +28,15 @@ namespace NPC
         private Vector3 lookAtGoal = Vector3.zero;
         private bool isDeath = false;
 
+
         private void Awake()
         {
+            npcAnimController = new NPC_AnimController(this, animator);
+        }
+
+        public void Init()
+        {
+            target = PlayerController.transform;
             npcAnimController = new NPC_AnimController(this, animator);
         }
 
@@ -103,10 +110,10 @@ namespace NPC
 
         private void OnDie(NPC_BehaviourType npcBehaviourType)
         {
+            isDeath = true;
             target = null;
             miniMapPointer.SetActive(false);
             NpcAudio.AudioSource.gameObject.SetActive(false);
-            isDeath = true;
 
             foreach (Collider col in colliders)
             {
@@ -144,6 +151,31 @@ namespace NPC
 
         private void Update()
         {
+            Vector3 s = NavMeshAgent.transform.InverseTransformDirection(NavMeshAgent.velocity).normalized;
+            if (!isDeath && NPC_Behaviour == NPC_BehaviourType.ANIM_TO_RUN)
+            {
+                if (Mathf.Abs(s.x) > 0.35f)
+                {
+                    Debug.Log("Minus");
+                    Speed -= Time.deltaTime;
+                }
+                else
+                {
+                    if (Speed <= Constants.RUN_SPEED)
+                    {
+                        Debug.Log("Plus");
+                        Speed += Time.deltaTime;
+                    }
+                }
+            }
+
+
+            if (isDeath)
+            {
+                Speed = 0;
+                NavMeshAgent.speed = 0;
+            }
+
             npcAnimController.DeltaUpdate();
             npcAnimController.AnimStateUpdate();
         }

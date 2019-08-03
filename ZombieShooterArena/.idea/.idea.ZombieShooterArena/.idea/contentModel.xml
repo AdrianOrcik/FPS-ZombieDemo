@@ -74,6 +74,7 @@
             <e p="NPC_Audio.cs" t="Include" />
             <e p="NPC_BodyHit.cs" t="Include" />
             <e p="NPC_Controller.cs" t="Include" />
+            <e p="NPC_Manager.cs" t="Include" />
           </e>
           <e p="Player" t="Include">
             <e p="ControllerCalculate.cs" t="Include" />
