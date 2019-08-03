@@ -11,7 +11,7 @@ namespace ScriptableScripts
 
         public bool IsReloading = false;
         public int AmmoAmount = 3;
-        public int StackAmount = 3;
+        public int StackAmount = 20;
         public float Damage = 10f;
         public float Range = 200f;
         public GameObject MuzzleFlashObj;

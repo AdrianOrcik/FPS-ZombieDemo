@@ -2,6 +2,7 @@
 using Core;
 using Core.Architecture;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace NPC
 {
@@ -9,6 +10,7 @@ namespace NPC
     {
         private NPC_AnimController npcAnimController;
 
+        [SerializeField] private NavMeshAgent NavMeshAgent;
         [SerializeField] private NPC_Audio NpcAudio;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform target;
@@ -24,9 +26,17 @@ namespace NPC
         private int currentLife = 3;
         private float accurancy = 1.8f;
         private Vector3 lookAtGoal = Vector3.zero;
+        private bool isDeath = false;
+
 
         private void Awake()
         {
+            npcAnimController = new NPC_AnimController(this, animator);
+        }
+
+        public void Init()
+        {
+            target = PlayerController.transform;
             npcAnimController = new NPC_AnimController(this, animator);
         }
 
@@ -100,6 +110,7 @@ namespace NPC
 
         private void OnDie(NPC_BehaviourType npcBehaviourType)
         {
+            isDeath = true;
             target = null;
             miniMapPointer.SetActive(false);
             NpcAudio.AudioSource.gameObject.SetActive(false);
@@ -140,21 +151,50 @@ namespace NPC
 
         private void Update()
         {
+            Vector3 s = NavMeshAgent.transform.InverseTransformDirection(NavMeshAgent.velocity).normalized;
+            if (!isDeath && NPC_Behaviour == NPC_BehaviourType.ANIM_TO_RUN)
+            {
+                if (Mathf.Abs(s.x) > 0.35f)
+                {
+                    Debug.Log("Minus");
+                    Speed -= Time.deltaTime;
+                }
+                else
+                {
+                    if (Speed <= Constants.RUN_SPEED)
+                    {
+                        Debug.Log("Plus");
+                        Speed += Time.deltaTime;
+                    }
+                }
+            }
+
+
+            if (isDeath)
+            {
+                Speed = 0;
+                NavMeshAgent.speed = 0;
+            }
+
             npcAnimController.DeltaUpdate();
             npcAnimController.AnimStateUpdate();
         }
 
         private void LateUpdate()
         {
-            if (target != null)
+            if (target != null && !isDeath)
             {
                 lookAtGoal = new Vector3(target.transform.position.x, transform.position.y,
                     target.transform.position.z);
 
+
+                NavMeshAgent.speed = Speed;
+                NavMeshAgent.SetDestination(lookAtGoal);
+
                 if (IsTargetFar())
                 {
-                    WalkCalculation();
-                    RotationCalculation();
+                    //WalkCalculation();
+                    //RotationCalculation();
                 }
             }
         }
